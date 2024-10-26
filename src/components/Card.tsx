@@ -1,3 +1,5 @@
+import Loading from "./Loading";
+
 interface CardProps {
   ipAddress: string;
   location: string;
@@ -27,14 +29,8 @@ export default function Card({
 }: CardProps) {
   if (loading) {
     return (
-      // TODO: É melhor adicionar um skeleton
       <div className="bg-white rounded-xl p-4 w-full max-w-3xl shadow-xl flex flex-col gap-y-6 items-center">
-        <div className="relative inline-flex">
-          <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
-          <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-ping"></div>
-          <div className="w-8 h-8 bg-blue-500 rounded-full absolute top-0 left-0 animate-pulse"></div>
-        </div>
-        <span className="sr-only">Loading...</span>
+        <Loading />
       </div>
     );
   }

@@ -1,22 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card";
 import Input from "../components/Input";
 ---
 
 <Layout title="IP Address Tracker">
   <main
-    class="bg-mobile-pattern bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center h-screen w-full p-4 gap-8">
+    class="bg-mobile-pattern bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center h-screen w-full p-6 gap-8">
     <h1>
       <span class="text-white text-2xl font-bold">IP Address Tracker</span>
     </h1>
-    <Input />
-    <Card
-      client:load
-      ipAddress="192.168.1.1"
-      location="São Paulo, SP"
-      timezone="UTC-3"
-      isp="Vivo"
-    />
+    <Input client:load />
   </main>
 </Layout>

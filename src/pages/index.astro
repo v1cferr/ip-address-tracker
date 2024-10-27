@@ -1,14 +1,29 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Input from "../components/Input";
+import Map from "../components/Map";
 ---
 
 <Layout title="IP Address Tracker">
   <main
-    class="bg-mobile-pattern bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center h-screen w-full p-6 gap-8">
-    <h1>
-      <span class="text-white text-2xl font-bold">IP Address Tracker</span>
-    </h1>
-    <Input client:load />
+    class="relative flex flex-col items-center justify-center h-screen w-full">
+    <!-- Title, input, button and card -->
+    <div
+      class="absolute top-0 z-20 flex flex-col items-center justify-center gap-y-6 mt-6">
+      <h1>
+        <span class="text-white text-2xl font-bold">IP Address Tracker</span>
+      </h1>
+      <Input client:load />
+    </div>
+
+    <!-- Background image -->
+    <div
+      class="bg-mobile-pattern bg-cover bg-center bg-no-repeat w-full h-2/5 z-10">
+    </div>
+
+    <!-- Map -->
+    <div class="relative w-full h-3/5 z-10">
+      <Map client:only="react" />
+    </div>
   </main>
 </Layout>

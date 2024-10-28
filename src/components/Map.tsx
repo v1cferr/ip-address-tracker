@@ -1,6 +1,6 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
-// WIP: I will use them later
+// TODO: Use the longitude and latitude from as a prop
 // interface MapProps {
 //   lng: number;
 //   lat: number;
@@ -20,7 +20,7 @@ export default function Map() {
   const myLatitude = myData.location.lat;
 
   return (
-    // Latitude and Longitude are inverted because Leaflet expects them in the order [latitude, longitude]
+    // Longitude and Latitude are inverted because Leaflet expects them in the order [latitude, longitude]
     <MapContainer
       id="map"
       center={[myLatitude, myLongitude]}

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import debounce from "lodash/debounce";
 import Card from "./Card";
 import Loading from "./Loading";
 
@@ -12,36 +13,54 @@ export default function Input() {
     isp: "",
   });
 
-  const handleSubmit = async (ipAddress?: string) => {
-    const ipToSubmit = ipAddress || value;
-    const apiKey = import.meta.env.PUBLIC_API_KEY;
-
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipToSubmit}`
-      );
-
-      const data = await response.json();
-      console.log(data);
-
-      setValue(data.ip);
-      setCardData({
-        ipAddress: data.ip,
-        location: `${data.location.city}, ${data.location.region}, ${data.location.country}`,
-        timezone: data.location.timezone,
-        isp: data.isp !== "" ? data.isp : data.as.name,
-      });
-    } catch (error) {
-      console.error("Error fetching IP data", error);
-    } finally {
-      setLoading(false);
-    }
+  const getClientIp = async () => {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    return data.ip;
   };
 
+  const handleSubmit = useCallback(
+    debounce(async (ipAddress?: string) => {
+      const ipToSubmit = ipAddress || value;
+      if (ipToSubmit === cardData.ipAddress) return;
+
+      const apiKey = import.meta.env.PUBLIC_API_KEY;
+
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipToSubmit}`
+        );
+
+        const data = await response.json();
+        console.log(data);
+
+        setValue(data.ip);
+        setCardData({
+          ipAddress: data.ip,
+          location: `${data.location.city}, ${data.location.region}, ${data.location.country}`,
+          timezone: data.location.timezone,
+          isp: data.isp !== "" ? data.isp : data.as.name,
+        });
+      } catch (error) {
+        console.error("Error fetching IP data", error);
+      } finally {
+        setLoading(false);
+      }
+    }, 500),
+    [value, cardData.ipAddress]
+  );
+
   useEffect(() => {
-    handleSubmit();
-  }, []);
+    const loadInitialIp = async () => {
+      if (!cardData.ipAddress) {
+        const clientIp = await getClientIp();
+        handleSubmit(clientIp);
+      }
+    };
+
+    loadInitialIp();
+  }, [handleSubmit]);
 
   return (
     <>

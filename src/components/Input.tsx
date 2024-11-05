@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import debounce from "lodash/debounce";
 import Card from "./Card";
 import Loading from "./Loading";
+import { useLocation } from "../context/LocationContext";
 
 export default function Input() {
   const [value, setValue] = useState("");
@@ -12,6 +13,7 @@ export default function Input() {
     timezone: "",
     isp: "",
   });
+  const { setCoordinates } = useLocation();
 
   const getClientIp = async () => {
     const response = await fetch("https://api.ipify.org?format=json");
@@ -33,7 +35,11 @@ export default function Input() {
         );
 
         const data = await response.json();
-        console.log(data);
+
+        setCoordinates({
+          lat: data.location.lat,
+          lng: data.location.lng,
+        });
 
         setValue(data.ip);
         setCardData({
@@ -48,7 +54,7 @@ export default function Input() {
         setLoading(false);
       }
     }, 500),
-    [value, cardData.ipAddress]
+    [value, cardData.ipAddress, setCoordinates]
   );
 
   useEffect(() => {

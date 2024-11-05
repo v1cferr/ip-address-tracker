@@ -1,38 +1,45 @@
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+// This component uses react-leaflet to display an interactive map with a marker
+// showing the current location coordinates from the LocationContext.
 
-// TODO: Use the longitude and latitude from as a prop
-// interface MapProps {
-//   lng: number;
-//   lat: number;
-// }
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import { useLocation } from "../context/LocationContext";
+import { useEffect } from "react";
+import "leaflet/dist/leaflet.css";
 
+// MapUpdater is a helper component that updates the map view when coordinates change
+// It uses the useMap hook from react-leaflet to access the map instance
+function MapUpdater() {
+  const { coordinates } = useLocation();
+  const map = useMap();
+
+  // Update map view whenever coordinates change
+  useEffect(() => {
+    if (coordinates.lat && coordinates.lng) {
+      map.setView([coordinates.lat, coordinates.lng], 13);
+    }
+  }, [coordinates, map]);
+
+  return null; // This component doesn't render anything
+}
+
+// Main Map component that renders the interactive map
 export default function Map() {
-  const myData = {
-    location: {
-      country: "BR",
-      lat: -23.71056,
-      lng: -46.41333,
-    },
-    isp: "",
-  };
-
-  const myLongitude = myData.location.lng;
-  const myLatitude = myData.location.lat;
+  // Get current coordinates from LocationContext
+  const { coordinates } = useLocation();
 
   return (
-    // Longitude and Latitude are inverted because Leaflet expects them in the order [latitude, longitude]
     <MapContainer
-      id="map"
-      center={[myLatitude, myLongitude]}
+      // Center the map at the current coordinates
+      center={[coordinates.lat, coordinates.lng]}
       zoom={13}
-      scrollWheelZoom={true}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[myLatitude, myLongitude]}>
-        <Popup>Based on your IP address, you are here.</Popup>
-      </Marker>
+      zoomControl={false} // Hide default zoom controls
+      style={{ height: "100%", width: "100%" }}>
+      {/* Add the OpenStreetMap tile layer */}
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* Add a marker at the current coordinates */}
+      <Marker position={[coordinates.lat, coordinates.lng]} />
+      {/* Include MapUpdater to handle coordinate changes */}
+      <MapUpdater />
     </MapContainer>
   );
 }

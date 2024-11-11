@@ -6,4 +6,7 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), tailwind()],
+  output: "static",
+  outDir: "./dist",
+  site: "https://v1cferr.github.io/ip-address-tracker/",
 });

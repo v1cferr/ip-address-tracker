@@ -1,3 +1,5 @@
+import React from "react";
+
 // This is a React Context that manages location (coordinates) globally in the application.
 // It provides a way to share and update location data between components without prop drilling.
 

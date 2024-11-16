@@ -1,4 +1,4 @@
-/// <reference path="../.astro/types.d.ts" />
+/// <reference types="vite/client" />
 
 interface ImportMetaEnv {
   readonly PUBLIC_API_KEY: string;

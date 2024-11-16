@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function Loading() {
   return (
     // TODO: Adicionar um loading melhor (skeleton com tailwind)

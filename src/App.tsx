@@ -1,6 +1,8 @@
-import Input from "./Input";
-import Map from "./Map";
-import { LocationProvider } from "../context/LocationContext";
+import React from "react";
+import Input from "./components/Input";
+import Map from "./components/Map";
+import { LocationProvider } from "./context/LocationContext";
+import "./App.css";
 
 export default function App() {
   return (

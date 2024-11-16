@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import debounce from "lodash/debounce";
 import Card from "./Card";
@@ -26,7 +27,7 @@ export default function Input() {
       const ipToSubmit = ipAddress || value;
       if (ipToSubmit === cardData.ipAddress) return;
 
-      const apiKey = import.meta.env.PUBLIC_API_KEY;
+      const apiKey = import.meta.env.VITE_API_KEY;
 
       try {
         setLoading(true);
@@ -98,7 +99,7 @@ export default function Input() {
             type="submit"
             className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray"
             disabled={loading}>
-            <img src="/images/icon-arrow.svg" alt="arrow" />
+            <img src="/src/assets/icon-arrow.svg" alt="arrow" />
           </button>
         </form>
       )}

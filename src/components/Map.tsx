@@ -1,6 +1,7 @@
 // This component uses react-leaflet to display an interactive map with a marker
 // showing the current location coordinates from the LocationContext.
 
+import React from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { useLocation } from "../context/LocationContext";
 import { useEffect } from "react";

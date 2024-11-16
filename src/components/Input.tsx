@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import debounce from "lodash/debounce";
 import Card from "./Card";
 import Loading from "./Loading";
+import arrowIcon from "../assets/icon-arrow.svg";
 import { useLocation } from "../context/LocationContext";
 
 export default function Input() {
@@ -99,7 +100,7 @@ export default function Input() {
             type="submit"
             className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray"
             disabled={loading}>
-            <img src="/src/assets/icon-arrow.svg" alt="arrow" />
+            <img src={arrowIcon} alt="arrow" />
           </button>
         </form>
       )}

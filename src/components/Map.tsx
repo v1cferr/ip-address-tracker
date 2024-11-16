@@ -1,45 +1,46 @@
-// This component uses react-leaflet to display an interactive map with a marker
-// showing the current location coordinates from the LocationContext.
-
 import React from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { useLocation } from "../context/LocationContext";
 import { useEffect } from "react";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
-// MapUpdater is a helper component that updates the map view when coordinates change
-// It uses the useMap hook from react-leaflet to access the map instance
+const defaultIcon = L.icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+L.Marker.prototype.options.icon = defaultIcon;
+
 function MapUpdater() {
   const { coordinates } = useLocation();
   const map = useMap();
 
-  // Update map view whenever coordinates change
   useEffect(() => {
     if (coordinates.lat && coordinates.lng) {
       map.setView([coordinates.lat, coordinates.lng], 13);
     }
   }, [coordinates, map]);
 
-  return null; // This component doesn't render anything
+  return null;
 }
 
-// Main Map component that renders the interactive map
 export default function Map() {
-  // Get current coordinates from LocationContext
   const { coordinates } = useLocation();
 
   return (
     <MapContainer
-      // Center the map at the current coordinates
       center={[coordinates.lat, coordinates.lng]}
       zoom={13}
-      zoomControl={false} // Hide default zoom controls
+      zoomControl={false}
       style={{ height: "100%", width: "100%" }}>
       {/* Add the OpenStreetMap tile layer */}
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {/* Add a marker at the current coordinates */}
       <Marker position={[coordinates.lat, coordinates.lng]} />
-      {/* Include MapUpdater to handle coordinate changes */}
       <MapUpdater />
     </MapContainer>
   );

@@ -67,7 +67,7 @@ export default function Card({
   localTime,
 }: CardProps) {
   return (
-    <ol className="bg-white rounded-xl p-6 md:p-8 w-full max-w-3xl md:max-w-4xl lg:max-w-5xl shadow-2xl flex flex-col md:flex-row md:items-stretch gap-y-6 md:gap-y-0 items-center transition-all duration-300 ease-in-out">
+    <ol className="bg-white rounded-2xl p-6 md:p-8 w-full max-w-3xl md:max-w-4xl lg:max-w-5xl shadow-2xl flex flex-col md:flex-row md:items-stretch gap-y-6 md:gap-y-0 items-center transition-all duration-300 ease-in-out">
       <CardItem title="IP Address" value={ipAddress} />
       <CardItem title="Location" value={location} />
       <CardItem title="ISP" value={isp} />

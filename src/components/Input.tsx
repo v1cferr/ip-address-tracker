@@ -84,12 +84,12 @@ export default function Input() {
           name="ipAddress"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="w-full p-4 rounded-xl border-none outline-none text-very-dark-gray placeholder-dark-gray transition-all duration-300 ease-in-out"
+          className="w-full p-4 rounded-2xl border-none outline-none text-very-dark-gray placeholder-dark-gray transition-all duration-300 ease-in-out"
           placeholder="Search for any IP address or domain"
         />
         <button
           type="submit"
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray transition-all duration-300 ease-in-out">
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-2xl rounded-bl-none hover:bg-very-dark-gray transition-all duration-300 ease-in-out">
           <img
             src={arrowIcon}
             width={12}

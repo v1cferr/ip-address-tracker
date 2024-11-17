@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
+import { useLocation } from "../context/LocationContext";
 import debounce from "lodash/debounce";
 import Card from "./Card";
 import Loading from "./Loading";
 import arrowIcon from "../assets/icon-arrow.svg";
-import { useLocation } from "../context/LocationContext";
 
 export default function Input() {
   const [value, setValue] = useState("");
@@ -18,9 +18,9 @@ export default function Input() {
   const { setCoordinates } = useLocation();
 
   const getClientIp = async () => {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    return data.ip;
+    const response = await fetch("https://api.ipquery.io/");
+    const ip = await response.text();
+    return ip;
   };
 
   const handleSubmit = useCallback(
@@ -28,27 +28,22 @@ export default function Input() {
       const ipToSubmit = ipAddress || value;
       if (ipToSubmit === cardData.ipAddress) return;
 
-      const apiKey = import.meta.env.VITE_API_KEY;
-
       try {
         setLoading(true);
-        const response = await fetch(
-          `https://geo.ipify.org/api/v2/country,city?apiKey=${apiKey}&ipAddress=${ipToSubmit}`
-        );
-
+        const response = await fetch(`https://api.ipquery.io/${ipToSubmit}`);
         const data = await response.json();
 
         setCoordinates({
-          lat: data.location.lat,
-          lng: data.location.lng,
+          lat: data.location.latitude,
+          lng: data.location.longitude,
         });
 
         setValue(data.ip);
         setCardData({
           ipAddress: data.ip,
-          location: `${data.location.city}, ${data.location.region}, ${data.location.country}`,
+          location: `${data.location.city}, ${data.location.state}, ${data.location.country}`,
           timezone: data.location.timezone,
-          isp: data.isp !== "" ? data.isp : data.as.name,
+          isp: data.isp.isp || data.isp.org,
         });
       } catch (error) {
         console.error("Error fetching IP data", error);

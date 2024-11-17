@@ -37,10 +37,10 @@ export default function Card({
   }
 
   return (
-    <ol className="bg-white rounded-xl p-6 w-full max-w-3xl shadow-xl flex flex-col gap-y-6 items-center ">
+    <ol className="bg-white rounded-xl p-6 w-full max-w-3xl shadow-xl flex flex-col gap-y-6 items-center">
       <CardItem title="IP Address" value={ipAddress} />
       <CardItem title="Location" value={location} />
-      <CardItem title="Timezone" value={`UTC ${timezone}`} />
+      <CardItem title="Timezone" value={timezone} />
       <CardItem title="ISP" value={isp} />
     </ol>
   );

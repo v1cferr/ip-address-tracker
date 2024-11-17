@@ -1,6 +1,6 @@
 # IP Address Tracker
 
-- For IP I used: [ipify](https://api.ipify.org/)
+- For IP I used: [ipquery](https://ipquery.io/)
 - For map I used: [leafletjs](https://leafletjs.com/)
 
 ## React + Vite

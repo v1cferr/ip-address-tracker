@@ -38,7 +38,6 @@ export default function Map() {
       zoom={13}
       zoomControl={false}
       style={{ height: "100%", width: "100%" }}>
-      {/* Add the OpenStreetMap tile layer */}
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[coordinates.lat, coordinates.lng]} />
       <MapUpdater />

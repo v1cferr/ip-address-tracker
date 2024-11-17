@@ -4,12 +4,10 @@ import { useLocation } from "../context/LocationContext";
 import { format } from "date-fns";
 import debounce from "lodash/debounce";
 import Card from "./Card";
-import Loading from "./Loading";
 import arrowIcon from "../assets/icon-arrow.svg";
 
 export default function Input() {
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(false);
   const [cardData, setCardData] = useState({
     ipAddress: "",
     location: "",
@@ -36,7 +34,6 @@ export default function Input() {
       if (ipToSubmit === cardData.ipAddress) return;
 
       try {
-        setLoading(true);
         const response = await fetch(`https://api.ipquery.io/${ipToSubmit}`);
         const data = await response.json();
 
@@ -45,7 +42,6 @@ export default function Input() {
           lng: data.location.longitude,
         });
 
-        setValue(data.ip);
         setCardData({
           ipAddress: data.ip,
           location: `${data.location.city}, ${data.location.state}, ${data.location.country}`,
@@ -55,8 +51,6 @@ export default function Input() {
         });
       } catch (error) {
         console.error("Error fetching IP data", error);
-      } finally {
-        setLoading(false);
       }
     }, 500),
     [value, cardData.ipAddress, setCoordinates]
@@ -75,39 +69,35 @@ export default function Input() {
 
   return (
     <>
-      {loading ? (
-        <div className="bg-white rounded-xl p-4 w-full max-w-3xl shadow-xl flex flex-col gap-y-6 items-center">
-          <Loading />
-        </div>
-      ) : (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-          className="relative w-full shadow-xl max-w-3xl">
-          <label htmlFor="ipAddress" className="sr-only">
-            IP Address
-          </label>
-          <input
-            type="text"
-            id="ipAddress"
-            name="ipAddress"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            className="w-full p-4 rounded-xl border-none outline-none text-very-dark-gray placeholder-dark-gray"
-            placeholder="Search for any IP address"
-            disabled={loading}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        className="relative w-full shadow-2xl max-w-3xl md:max-w-2xl transition-all duration-300 ease-in-out">
+        <label htmlFor="ipAddress" className="sr-only">
+          IP Address
+        </label>
+        <input
+          type="text"
+          id="ipAddress"
+          name="ipAddress"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="w-full p-4 rounded-xl border-none outline-none text-very-dark-gray placeholder-dark-gray transition-all duration-300 ease-in-out"
+          placeholder="Search for any IP address or domain"
+        />
+        <button
+          type="submit"
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray transition-all duration-300 ease-in-out">
+          <img
+            src={arrowIcon}
+            alt="arrow"
+            className="transition-transform duration-300 ease-in-out hover:scale-110"
           />
-          <button
-            type="submit"
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray"
-            disabled={loading}>
-            <img src={arrowIcon} alt="arrow" />
-          </button>
-        </form>
-      )}
-      {cardData.ipAddress && <Card {...cardData} loading={loading} />}
+        </button>
+      </form>
+      <Card {...cardData} />
     </>
   );
 }

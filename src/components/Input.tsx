@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "../context/LocationContext";
+import { format } from "date-fns";
 import debounce from "lodash/debounce";
 import Card from "./Card";
 import Loading from "./Loading";
@@ -14,6 +15,7 @@ export default function Input() {
     location: "",
     timezone: "",
     isp: "",
+    localTime: "",
   });
   const { setCoordinates } = useLocation();
 
@@ -21,6 +23,11 @@ export default function Input() {
     const response = await fetch("https://api.ipquery.io/");
     const ip = await response.text();
     return ip;
+  };
+
+  const formatLocalTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return format(date, "EEEE, MMMM d, yyyy, h:mm a");
   };
 
   const handleSubmit = useCallback(
@@ -44,6 +51,7 @@ export default function Input() {
           location: `${data.location.city}, ${data.location.state}, ${data.location.country}`,
           timezone: data.location.timezone,
           isp: data.isp.isp || data.isp.org,
+          localTime: formatLocalTime(data.location.localtime),
         });
       } catch (error) {
         console.error("Error fetching IP data", error);

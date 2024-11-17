@@ -92,6 +92,8 @@ export default function Input() {
           className="absolute right-0 top-1/2 -translate-y-1/2 bg-black p-[21px] rounded-r-xl rounded-bl-none hover:bg-very-dark-gray transition-all duration-300 ease-in-out">
           <img
             src={arrowIcon}
+            width={12}
+            height={12}
             alt="arrow"
             className="transition-transform duration-300 ease-in-out hover:scale-110"
           />
